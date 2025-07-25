@@ -1,22 +1,25 @@
+// server.js
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
 
-// ✅ TEST ROUTE — required to show something at /
+// Serve uploaded images statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ✅ Test route to confirm backend is alive
 app.get('/', (req, res) => {
   res.send('✅ Recipe API is running');
 });
 
-// OPTIONAL: attach real API routes
+// Optional: Load your routes here
 // const authRoutes = require('./routes/authRoutes');
 // const recipeRoutes = require('./routes/recipeRoutes');
 // app.use('/api/auth', authRoutes);
@@ -25,10 +28,13 @@ app.get('/', (req, res) => {
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 })
 .then(() => {
   console.log("✅ Connected to MongoDB");
+
+  // Important: use Render's injected PORT
+  const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
   });
