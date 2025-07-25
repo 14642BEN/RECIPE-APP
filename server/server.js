@@ -11,17 +11,18 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
-// ✅ Test Route (IMPORTANT!)
+// ✅ TEST ROUTE — required to show something at /
 app.get('/', (req, res) => {
   res.send('✅ Recipe API is running');
 });
 
-// Add your actual API routes here
+// OPTIONAL: attach real API routes
 // const authRoutes = require('./routes/authRoutes');
 // const recipeRoutes = require('./routes/recipeRoutes');
 // app.use('/api/auth', authRoutes);
 // app.use('/api/recipes', recipeRoutes);
 
+// Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -29,7 +30,9 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => {
   console.log("✅ Connected to MongoDB");
   app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
   });
 })
-.catch((err) => console.error("❌ MongoDB connection error:", err));
+.catch((err) => {
+  console.error("❌ MongoDB connection error:", err);
+});
