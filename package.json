@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    
+    "start": "node src/index.js"
   },
+  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/14642BEN/RECIPE-APP.git"
